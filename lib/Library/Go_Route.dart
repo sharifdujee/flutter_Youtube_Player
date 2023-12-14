@@ -114,6 +114,10 @@ class _GoRouteExampleState extends State<GoRouteExample> {
                   child: Text('Go The YouTube Video Player Page ')
               ),
               Gap(10),
+              ElevatedButton(onPressed: () => context.go('/photo'),
+                  child: Text('Go The Photo View Page ')
+              ),
+              Gap(10),
 
               Container(
                 height: 500,

@@ -5,6 +5,7 @@ import 'package:Division/Library/Slideable.dart';
 import 'package:Division/Library/animation.dart';
 import 'package:Division/Library/badge.dart';
 import 'package:Division/Library/connectivity.dart';
+import 'package:Division/Library/photview.dart';
 import 'package:Division/Library/pi.dart';
 import 'package:Division/Library/pichart.dart';
 import 'package:Division/Library/price.dart';
@@ -88,7 +89,13 @@ final GoRouter _goRouter  = GoRouter(
         builder: (BuildContext context, GoRouterState state){
         return const YouTubeVideoPlayerExample();
         }
+      ),
+      GoRoute(path: '/photo',
+        builder: (BuildContext context, GoRouterState state){
+        return const PhotoViewExample();
+        }
       )
+
 
 
           ],
