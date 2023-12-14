@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "781052430424",
+    "project_id": "library-practice-5dc0f",
+    "storage_bucket": "library-practice-5dc0f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781052430424:android:5f3dc9545df52acffa622d",
+        "android_client_info": {
+          "package_name": "com.example.districit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZPWTFwmzBEgGQkkrmTJXgDFiMCcKAHkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
