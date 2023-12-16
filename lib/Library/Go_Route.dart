@@ -118,6 +118,10 @@ class _GoRouteExampleState extends State<GoRouteExample> {
                   child: Text('Go The Photo View Page ')
               ),
               Gap(10),
+              ElevatedButton(onPressed: () => context.go('/facebook'),
+                  child: Text('Go The FaceBook Login Screen ')
+              ),
+              Gap(10),
 
               Container(
                 height: 500,

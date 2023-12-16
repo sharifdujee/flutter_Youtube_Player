@@ -13,6 +13,7 @@ import 'package:Division/Library/sector.dart';
 import 'package:Division/Library/sensor.dart';
 import 'package:Division/Library/url_launcher.dart';
 import 'package:Division/Library/youtube_player.dart';
+import 'package:Division/UI_Design/facebook_login.dart';
 import 'package:Division/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,12 @@ final GoRouter _goRouter  = GoRouter(
         builder: (BuildContext context, GoRouterState state){
         return const PhotoViewExample();
         }
-      )
+      ),
+      GoRoute(path: '/facebook',
+      builder: (BuildContext context, GoRouterState state){
+        return const FacebookLoginScreen();
+      }
+      ),
 
 
 

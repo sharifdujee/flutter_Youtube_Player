@@ -1,450 +1,262 @@
-// import 'dart:developer';
-//
-// import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:youtube_player_flutter/youtube_player_flutter.dart'
+// import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:login_register_app/values/app_routes.dart';
 //
-// void main() {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   SystemChrome.setSystemUIOverlayStyle(
-//     const SystemUiOverlayStyle(
-//       statusBarColor: Colors.blueAccent,
-//     ),
-//   );
-//   runApp(YoutubePlayerDemoApp());
+// import '../components/app_text_form_field.dart';
+// import '../resources/vectors.dart';
+// import '../utils/extensions.dart';
+// import '../values/app_colors.dart';
+// import '../values/app_constants.dart';
+//
+// class LoginPage extends StatefulWidget {
+//   const LoginPage({super.key});
+//
+//   @override
+//   State<LoginPage> createState() => _LoginPageState();
 // }
 //
-// /// Creates [YoutubePlayerDemoApp] widget.
-// class YoutubePlayerDemoApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Youtube Player Flutter',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//         appBarTheme: const AppBarTheme(
-//           color: Colors.blueAccent,
-//           titleTextStyle: TextStyle(
-//             color: Colors.white,
-//             fontWeight: FontWeight.w300,
-//             fontSize: 20,
-//           ),
-//         ),
-//         iconTheme: const IconThemeData(
-//           color: Colors.blueAccent,
-//         ),
-//       ),
-//       home: MyHomePage(),
-//     );
-//   }
-// }
+// class _LoginPageState extends State<LoginPage> {
+//   final _formKey = GlobalKey<FormState>();
+//   TextEditingController emailController = TextEditingController();
+//   TextEditingController passwordController = TextEditingController();
 //
-// /// Homepage
-// class MyHomePage extends StatefulWidget {
-//   @override
-//   _MyHomePageState createState() => _MyHomePageState();
-// }
-//
-// class _MyHomePageState extends State<MyHomePage> {
-//   late YoutubePlayerController _controller;
-//   late TextEditingController _idController;
-//   late TextEditingController _seekToController;
-//
-//   late PlayerState _playerState;
-//   late YoutubeMetaData _videoMetaData;
-//   double _volume = 100;
-//   bool _muted = false;
-//   bool _isPlayerReady = false;
-//
-//   final List<String> _ids = [
-//     'nPt8bK2gbaU',
-//     'gQDByCdjUXw',
-//     'iLnmTe5Q2Qw',
-//     '_WoCV4c6XOE',
-//     'KmzdUe0RSJo',
-//     '6jZDSSZZxjQ',
-//     'p2lYr3vM_1w',
-//     '7QUtEmBT_-w',
-//     '34_PXCzGw1M',
-//   ];
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _controller = YoutubePlayerController(
-//       initialVideoId: _ids.first,
-//       flags: const YoutubePlayerFlags(
-//         mute: false,
-//         autoPlay: true,
-//         disableDragSeek: false,
-//         loop: false,
-//         isLive: false,
-//         forceHD: false,
-//         enableCaption: true,
-//       ),
-//     )..addListener(listener);
-//     _idController = TextEditingController();
-//     _seekToController = TextEditingController();
-//     _videoMetaData = const YoutubeMetaData();
-//     _playerState = PlayerState.unknown;
-//   }
-//
-//   void listener() {
-//     if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-//       setState(() {
-//         _playerState = _controller.value.playerState;
-//         _videoMetaData = _controller.metadata;
-//       });
-//     }
-//   }
-//
-//   @override
-//   void deactivate() {
-//     // Pauses video while navigating to next page.
-//     _controller.pause();
-//     super.deactivate();
-//   }
-//
-//   @override
-//   void dispose() {
-//     _controller.dispose();
-//     _idController.dispose();
-//     _seekToController.dispose();
-//     super.dispose();
-//   }
+//   bool isObscure = true;
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     return YoutubePlayerBuilder(
-//       onExitFullScreen: () {
-//         // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
-//         SystemChrome.setPreferredOrientations(DeviceOrientation.values);
-//       },
-//       player: YoutubePlayer(
-//         controller: _controller,
-//         showVideoProgressIndicator: true,
-//         progressIndicatorColor: Colors.blueAccent,
-//         topActions: <Widget>[
-//           const SizedBox(width: 8.0),
-//           Expanded(
-//             child: Text(
-//               _controller.metadata.title,
-//               style: const TextStyle(
-//                 color: Colors.white,
-//                 fontSize: 18.0,
-//               ),
-//               overflow: TextOverflow.ellipsis,
-//               maxLines: 1,
-//             ),
-//           ),
-//           IconButton(
-//             icon: const Icon(
-//               Icons.settings,
-//               color: Colors.white,
-//               size: 25.0,
-//             ),
-//             onPressed: () {
-//               log('Settings Tapped!');
-//             },
-//           ),
-//         ],
-//         onReady: () {
-//           _isPlayerReady = true;
-//         },
-//         onEnded: (data) {
-//           _controller
-//               .load(_ids[(_ids.indexOf(data.videoId) + 1) % _ids.length]);
-//           _showSnackBar('Next Video Started!');
-//         },
-//       ),
-//       builder: (context, player) => Scaffold(
-//         appBar: AppBar(
-//           leading: Padding(
-//             padding: const EdgeInsets.only(left: 12.0),
-//             child: Image.asset(
-//               'assets/ypf.png',
-//               fit: BoxFit.fitWidth,
-//             ),
-//           ),
-//           title: const Text(
-//             'Youtube Player Flutter',
-//             style: TextStyle(color: Colors.white),
-//           ),
-//           actions: [
-//             IconButton(
-//               icon: const Icon(Icons.video_library),
-//               onPressed: () => Navigator.push(
-//                 context,
-//                 CupertinoPageRoute(
-//                   builder: (context) => VideoList(),
+//     final size = context.mediaQuerySize;
+//     return Scaffold(
+//       body: SingleChildScrollView(
+//         child: Form(
+//           key: _formKey,
+//           child: Column(
+//             children: [
+//               Container(
+//                 height: size.height * 0.24,
+//                 width: double.infinity,
+//                 padding: const EdgeInsets.all(20),
+//                 decoration: const BoxDecoration(
+//                   gradient: LinearGradient(
+//                     colors: [
+//                       Color(0xff1E2E3D),
+//                       Color(0xff152534),
+//                       Color(0xff0C1C2E),
+//                     ],
+//                   ),
+//                 ),
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.end,
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       'Sign in to your\nAccount',
+//                       style: Theme.of(context).textTheme.titleLarge,
+//                     ),
+//                     const SizedBox(
+//                       height: 6,
+//                     ),
+//                     Text(
+//                       'Sign in to your Account',
+//                       style: Theme.of(context).textTheme.bodySmall,
+//                     ),
+//                   ],
 //                 ),
 //               ),
-//             ),
-//           ],
-//         ),
-//         body: ListView(
-//           children: [
-//             player,
-//             Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.stretch,
-//                 children: [
-//                   _space,
-//                   _text('Title', _videoMetaData.title),
-//                   _space,
-//                   _text('Channel', _videoMetaData.author),
-//                   _space,
-//                   _text('Video Id', _videoMetaData.videoId),
-//                   _space,
-//                   Row(
-//                     children: [
-//                       _text(
-//                         'Playback Quality',
-//                         _controller.value.playbackQuality ?? '',
-//                       ),
-//                       const Spacer(),
-//                       _text(
-//                         'Playback Rate',
-//                         '${_controller.value.playbackRate}x  ',
-//                       ),
-//                     ],
-//                   ),
-//                   _space,
-//                   TextField(
-//                     enabled: _isPlayerReady,
-//                     controller: _idController,
-//                     decoration: InputDecoration(
-//                       border: InputBorder.none,
-//                       hintText: 'Enter youtube \<video id\> or \<link\>',
-//                       fillColor: Colors.blueAccent.withAlpha(20),
-//                       filled: true,
-//                       hintStyle: const TextStyle(
-//                         fontWeight: FontWeight.w300,
-//                         color: Colors.blueAccent,
-//                       ),
-//                       suffixIcon: IconButton(
-//                         icon: const Icon(Icons.clear),
-//                         onPressed: () => _idController.clear(),
-//                       ),
+//               Padding(
+//                 padding:
+//                 const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.end,
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     AppTextFormField(
+//                       labelText: 'Email',
+//                       keyboardType: TextInputType.emailAddress,
+//                       textInputAction: TextInputAction.next,
+//                       onChanged: (value) {
+//                         _formKey.currentState?.validate();
+//                       },
+//                       validator: (value) {
+//                         return value!.isEmpty
+//                             ? 'Please, Enter Email Address'
+//                             : AppConstants.emailRegex.hasMatch(value)
+//                             ? null
+//                             : 'Invalid Email Address';
+//                       },
+//                       controller: emailController,
 //                     ),
-//                   ),
-//                   _space,
-//                   Row(
-//                     children: [
-//                       _loadCueButton('LOAD'),
-//                       const SizedBox(width: 10.0),
-//                       _loadCueButton('CUE'),
-//                     ],
-//                   ),
-//                   _space,
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                     children: [
-//                       IconButton(
-//                         icon: const Icon(Icons.skip_previous),
-//                         onPressed: _isPlayerReady
-//                             ? () => _controller.load(_ids[
-//                         (_ids.indexOf(_controller.metadata.videoId) -
-//                             1) %
-//                             _ids.length])
-//                             : null,
-//                       ),
-//                       IconButton(
-//                         icon: Icon(
-//                           _controller.value.isPlaying
-//                               ? Icons.pause
-//                               : Icons.play_arrow,
-//                         ),
-//                         onPressed: _isPlayerReady
-//                             ? () {
-//                           _controller.value.isPlaying
-//                               ? _controller.pause()
-//                               : _controller.play();
-//                           setState(() {});
-//                         }
-//                             : null,
-//                       ),
-//                       IconButton(
-//                         icon: Icon(_muted ? Icons.volume_off : Icons.volume_up),
-//                         onPressed: _isPlayerReady
-//                             ? () {
-//                           _muted
-//                               ? _controller.unMute()
-//                               : _controller.mute();
-//                           setState(() {
-//                             _muted = !_muted;
-//                           });
-//                         }
-//                             : null,
-//                       ),
-//                       FullScreenButton(
-//                         controller: _controller,
-//                         color: Colors.blueAccent,
-//                       ),
-//                       IconButton(
-//                         icon: const Icon(Icons.skip_next),
-//                         onPressed: _isPlayerReady
-//                             ? () => _controller.load(_ids[
-//                         (_ids.indexOf(_controller.metadata.videoId) +
-//                             1) %
-//                             _ids.length])
-//                             : null,
-//                       ),
-//                     ],
-//                   ),
-//                   _space,
-//                   Row(
-//                     children: <Widget>[
-//                       const Text(
-//                         "Volume",
-//                         style: TextStyle(fontWeight: FontWeight.w300),
-//                       ),
-//                       Expanded(
-//                         child: Slider(
-//                           inactiveColor: Colors.transparent,
-//                           value: _volume,
-//                           min: 0.0,
-//                           max: 100.0,
-//                           divisions: 10,
-//                           label: '${(_volume).round()}',
-//                           onChanged: _isPlayerReady
-//                               ? (value) {
+//                     AppTextFormField(
+//                       labelText: 'Password',
+//                       keyboardType: TextInputType.visiblePassword,
+//                       textInputAction: TextInputAction.done,
+//                       onChanged: (value) {
+//                         _formKey.currentState?.validate();
+//                       },
+//                       validator: (value) {
+//                         return value!.isEmpty
+//                             ? 'Please, Enter Password'
+//                             : AppConstants.passwordRegex.hasMatch(value)
+//                             ? null
+//                             : 'Invalid Password';
+//                       },
+//                       controller: passwordController,
+//                       obscureText: isObscure,
+//                       suffixIcon: Padding(
+//                         padding: const EdgeInsets.only(right: 15),
+//                         child: IconButton(
+//                           onPressed: () {
 //                             setState(() {
-//                               _volume = value;
+//                               isObscure = !isObscure;
 //                             });
-//                             _controller.setVolume(_volume.round());
-//                           }
-//                               : null,
+//                           },
+//                           style: ButtonStyle(
+//                             minimumSize: MaterialStateProperty.all(
+//                               const Size(48, 48),
+//                             ),
+//                           ),
+//                           icon: Icon(
+//                             isObscure
+//                                 ? Icons.visibility_off_outlined
+//                                 : Icons.visibility_outlined,
+//                             color: Colors.black,
+//                           ),
 //                         ),
 //                       ),
-//                     ],
-//                   ),
-//                   _space,
-//                   AnimatedContainer(
-//                     duration: const Duration(milliseconds: 800),
-//                     decoration: BoxDecoration(
-//                       borderRadius: BorderRadius.circular(20.0),
-//                       color: _getStateColor(_playerState),
 //                     ),
-//                     padding: const EdgeInsets.all(8.0),
-//                     child: Text(
-//                       _playerState.toString(),
-//                       style: const TextStyle(
-//                         fontWeight: FontWeight.w300,
-//                         color: Colors.white,
+//                     TextButton(
+//                       onPressed: () {},
+//                       style: Theme.of(context).textButtonTheme.style,
+//                       child: Text(
+//                         'Forgot Password?',
+//                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
+//                           color: AppColors.primaryColor,
+//                           fontWeight: FontWeight.bold,
+//                         ),
 //                       ),
-//                       textAlign: TextAlign.center,
 //                     ),
-//                   ),
-//                 ],
+//                     const SizedBox(
+//                       height: 15,
+//                     ),
+//                     FilledButton(
+//                       onPressed: _formKey.currentState?.validate() ?? false
+//                           ? () {
+//                         ScaffoldMessenger.of(context).showSnackBar(
+//                           const SnackBar(
+//                             content: Text('Logged In!'),
+//                           ),
+//                         );
+//                         emailController.clear();
+//                         passwordController.clear();
+//                       }
+//                           : null,
+//                       style: const ButtonStyle().copyWith(
+//                         backgroundColor: MaterialStateProperty.all(
+//                           _formKey.currentState?.validate() ?? false
+//                               ? null
+//                               : Colors.grey.shade300,
+//                         ),
+//                       ),
+//                       child: const Text('Login'),
+//                     ),
+//                     const SizedBox(
+//                       height: 30,
+//                     ),
+//                     Row(
+//                       children: [
+//                         Expanded(
+//                           child: Divider(
+//                             color: Colors.grey.shade200,
+//                           ),
+//                         ),
+//                         Padding(
+//                           padding: const EdgeInsets.symmetric(
+//                             horizontal: 20,
+//                           ),
+//                           child: Text(
+//                             'Or login with',
+//                             style: Theme.of(context)
+//                                 .textTheme
+//                                 .bodySmall
+//                                 ?.copyWith(color: Colors.black),
+//                           ),
+//                         ),
+//                         Expanded(
+//                           child: Divider(
+//                             color: Colors.grey.shade200,
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                     const SizedBox(
+//                       height: 30,
+//                     ),
+//                     Row(
+//                       children: [
+//                         Expanded(
+//                           child: OutlinedButton.icon(
+//                             onPressed: () {},
+//                             style: Theme.of(context).outlinedButtonTheme.style,
+//                             icon: SvgPicture.asset(
+//                               Vectors.googleIcon,
+//                               width: 14,
+//                             ),
+//                             label: const Text(
+//                               'Google',
+//                               style: TextStyle(color: Colors.black),
+//                             ),
+//                           ),
+//                         ),
+//                         const SizedBox(
+//                           width: 20,
+//                         ),
+//                         Expanded(
+//                           child: OutlinedButton.icon(
+//                             onPressed: () {},
+//                             style: Theme.of(context).outlinedButtonTheme.style,
+//                             icon: SvgPicture.asset(
+//                               Vectors.facebookIcon,
+//                               width: 14,
+//                             ),
+//                             label: const Text(
+//                               'Facebook',
+//                               style: TextStyle(color: Colors.black),
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ],
+//                 ),
 //               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   Widget _text(String title, String value) {
-//     return RichText(
-//       text: TextSpan(
-//         text: '$title : ',
-//         style: const TextStyle(
-//           color: Colors.blueAccent,
-//           fontWeight: FontWeight.bold,
-//         ),
-//         children: [
-//           TextSpan(
-//             text: value,
-//             style: const TextStyle(
-//               color: Colors.blueAccent,
-//               fontWeight: FontWeight.w300,
-//             ),
+//               Padding(
+//                 padding:
+//                 const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     Text(
+//                       "Don't have an account?",
+//                       style: Theme.of(context)
+//                           .textTheme
+//                           .bodySmall
+//                           ?.copyWith(color: Colors.black),
+//                     ),
+//                     TextButton(
+//                       onPressed: () => AppRoutes.registerScreen.pushName(),
+//                       style: Theme.of(context).textButtonTheme.style,
+//                       child: Text(
+//                         'Register',
+//                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
+//                           color: AppColors.primaryColor,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
 //           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Color _getStateColor(PlayerState state) {
-//     switch (state) {
-//       case PlayerState.unknown:
-//         return Colors.grey[700]!;
-//       case PlayerState.unStarted:
-//         return Colors.pink;
-//       case PlayerState.ended:
-//         return Colors.red;
-//       case PlayerState.playing:
-//         return Colors.blueAccent;
-//       case PlayerState.paused:
-//         return Colors.orange;
-//       case PlayerState.buffering:
-//         return Colors.yellow;
-//       case PlayerState.cued:
-//         return Colors.blue[900]!;
-//       default:
-//         return Colors.blue;
-//     }
-//   }
-//
-//   Widget get _space => const SizedBox(height: 10);
-//
-//   Widget _loadCueButton(String action) {
-//     return Expanded(
-//       child: MaterialButton(
-//         color: Colors.blueAccent,
-//         onPressed: _isPlayerReady
-//             ? () {
-//           if (_idController.text.isNotEmpty) {
-//             var id = YoutubePlayer.convertUrlToId(
-//               _idController.text,
-//             ) ??
-//                 '';
-//             if (action == 'LOAD') _controller.load(id);
-//             if (action == 'CUE') _controller.cue(id);
-//             FocusScope.of(context).requestFocus(FocusNode());
-//           } else {
-//             _showSnackBar('Source can\'t be empty!');
-//           }
-//         }
-//             : null,
-//         disabledColor: Colors.grey,
-//         disabledTextColor: Colors.black,
-//         child: Padding(
-//           padding: const EdgeInsets.symmetric(vertical: 14.0),
-//           child: Text(
-//             action,
-//             style: const TextStyle(
-//               fontSize: 18.0,
-//               color: Colors.white,
-//               fontWeight: FontWeight.w300,
-//             ),
-//             textAlign: TextAlign.center,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   void _showSnackBar(String message) {
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       SnackBar(
-//         content: Text(
-//           message,
-//           textAlign: TextAlign.center,
-//           style: const TextStyle(
-//             fontWeight: FontWeight.w300,
-//             fontSize: 16.0,
-//           ),
-//         ),
-//         backgroundColor: Colors.blueAccent,
-//         behavior: SnackBarBehavior.floating,
-//         elevation: 1.0,
-//         shape: RoundedRectangleBorder(
-//           borderRadius: BorderRadius.circular(50.0),
 //         ),
 //       ),
 //     );

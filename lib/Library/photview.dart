@@ -94,11 +94,20 @@ class _PhotoViewExampleState extends State<PhotoViewExample> {
               Container(
                 height: 50,
                 child: BottomNavigationExample(),
-              )
+              ),
+              Gap(10),
+              Container(
+                height: 10,
+                child: FloatingActionButton(
+                    onPressed: (){}
+                ),
+
+              ),
             ],
           ),
         ),
       ),
+
     );
   }
 }
