@@ -1,9 +1,10 @@
-import 'package:Division/Library/values/app_color.dart';
-import 'package:Division/Library/values/app_constants.dart';
-import 'package:Division/Library/values/route.dart';
-import 'package:Division/components/apexTextForm.dart';
-import 'package:Division/resouce/vector.dart';
-import 'package:Division/utlits/navigation.dart';
+
+import 'package:Flutter_Library/Library/values/app_color.dart';
+import 'package:Flutter_Library/Library/values/app_constants.dart';
+import 'package:Flutter_Library/Library/values/route.dart';
+import 'package:Flutter_Library/components/apexTextForm.dart';
+import 'package:Flutter_Library/resouce/vector.dart';
+import 'package:Flutter_Library/utlits/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
@@ -29,6 +30,7 @@ class _FacebookLoginScreenState extends State<FacebookLoginScreen> {
       ),
       body: SingleChildScrollView(
         child: Form(
+
           key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,19 +49,36 @@ class _FacebookLoginScreenState extends State<FacebookLoginScreen> {
                         ]
                     )
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Sign In To Your \nAccount',
-                        style: Theme.of(context).textTheme.titleLarge,
-                        
-                      ),
-                      Gap(10),
-                      Text('Sign In To Your Account',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      )
-                    ],
+                  child: Container(
+                    height: 400,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Container(
+                            height: 30,
+                            child: Image(image: NetworkImage('https://images.hindustantimes.com/tech/img/2023/09/21/960x540/fb_1695273515215_1695273522698.jpg'),
+
+                            ),
+
+                          ),
+                        ),
+
+                        Center(
+                          child: Text('Sign In To Your \nAccount',
+                            style: Theme.of(context).textTheme.titleLarge,
+
+                          ),
+                        ),
+                        Gap(10),
+                        Center(
+                          child: Text('Sign In To Your Account',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Padding(padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
@@ -82,7 +101,11 @@ class _FacebookLoginScreenState extends State<FacebookLoginScreen> {
                               ? null
                               : 'Invalid Email Address' ;
                         },
+
+
+
                       ),
+
                       AppTextFormField(
                           textInputAction: TextInputAction.done,
                           labelText: 'Password',
@@ -100,6 +123,7 @@ class _FacebookLoginScreenState extends State<FacebookLoginScreen> {
                                 : 'Invalid Password';
                         },
                         suffixIcon: Padding(
+
                             padding: const EdgeInsets.only(right: 15),
                           child: IconButton(onPressed: (){
                             setState(() {

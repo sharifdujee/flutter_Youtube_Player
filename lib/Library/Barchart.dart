@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:Division/Library/price.dart';
-import 'package:Division/Widget/bottom_navigation.dart';
+
+import 'package:Flutter_Library/Library/price.dart';
+import 'package:Flutter_Library/Widget/bottom_navigation.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 

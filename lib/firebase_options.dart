@@ -67,7 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '781052430424',
     projectId: 'library-practice-5dc0f',
     storageBucket: 'library-practice-5dc0f.appspot.com',
-    iosBundleId: 'com.example.districit',
+    iosBundleId: 'com.example.Flutter_Libraryt',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -76,6 +76,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '781052430424',
     projectId: 'library-practice-5dc0f',
     storageBucket: 'library-practice-5dc0f.appspot.com',
-    iosBundleId: 'com.example.districit.RunnerTests',
+    iosBundleId: 'com.example.Flutter_Libraryt.RunnerTests',
   );
 }

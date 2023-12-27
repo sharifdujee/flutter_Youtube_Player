@@ -1,4 +1,5 @@
-import 'package:Division/Widget/bottom_navigation.dart';
+
+import 'package:Flutter_Library/Widget/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:photo_view/photo_view.dart';

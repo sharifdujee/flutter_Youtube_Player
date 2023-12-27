@@ -1,226 +1,108 @@
-// Copyright 2013 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-// ignore_for_file: public_member_api_docs
-
-import 'dart:async';
-
+import 'package:Flutter_Library/Widget/bottom_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/link.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-
-
-
-class MyHomePage1 extends StatefulWidget {
-  const MyHomePage1({super.key, required this.title});
-  final String title;
+import 'package:gap/gap.dart';
+import 'dart:io';
+import 'package:url_launcher/url_launcher.dart' as launcher;
+class UrlLauncherExample extends StatefulWidget {
+  const UrlLauncherExample({super.key});
 
   @override
-  State<MyHomePage1> createState() => _MyHomePageState();
+  State<UrlLauncherExample> createState() => _UrlLauncherExampleState();
 }
 
-class _MyHomePageState extends State<MyHomePage1> {
-  bool _hasCallSupport = false;
-  Future<void>? _launched;
-  String _phone = '';
-
-  @override
-  void initState() {
-    super.initState();
-    // Check for phone call support.
-    canLaunchUrl(Uri(scheme: 'tel', path: '123')).then((bool result) {
-      setState(() {
-        _hasCallSupport = result;
-      });
-    });
-  }
-
-  Future<void> _launchInBrowser(Uri url) async {
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  Future<void> _launchInBrowserView(Uri url) async {
-    if (!await launchUrl(url, mode: LaunchMode.inAppBrowserView)) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  Future<void> _launchInWebView(Uri url) async {
-    if (!await launchUrl(url, mode: LaunchMode.inAppWebView)) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  Future<void> _launchAsInAppWebViewWithCustomHeaders(Uri url) async {
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.inAppWebView,
-      webViewConfiguration: const WebViewConfiguration(
-          headers: <String, String>{'my_header_key': 'my_header_value'}),
-    )) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  Future<void> _launchInWebViewWithoutJavaScript(Uri url) async {
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.inAppWebView,
-      webViewConfiguration: const WebViewConfiguration(enableJavaScript: false),
-    )) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  Future<void> _launchInWebViewWithoutDomStorage(Uri url) async {
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.inAppWebView,
-      webViewConfiguration: const WebViewConfiguration(enableDomStorage: false),
-    )) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
-  Future<void> _launchUniversalLinkIOS(Uri url) async {
-    final bool nativeAppLaunchSucceeded = await launchUrl(
-      url,
-      mode: LaunchMode.externalNonBrowserApplication,
-    );
-    if (!nativeAppLaunchSucceeded) {
-      await launchUrl(
-        url,
-        mode: LaunchMode.inAppBrowserView,
-      );
-    }
-  }
-
-  Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
-    if (snapshot.hasError) {
-      return Text('Error: ${snapshot.error}');
-    } else {
-      return const Text('');
-    }
-  }
-
-  Future<void> _makePhoneCall(String phoneNumber) async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: phoneNumber,
-    );
-    await launchUrl(launchUri);
-  }
-
+class _UrlLauncherExampleState extends State<UrlLauncherExample> {
   @override
   Widget build(BuildContext context) {
-    // onPressed calls using this URL are not gated on a 'canLaunch' check
-    // because the assumption is that every device can launch a web URL.
-    final Uri toLaunch =
-    Uri(scheme: 'https', host: 'www.cylog.org', path: 'headers/');
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Url Launcher Page'),
+        backgroundColor: Colors.green,
       ),
-      body: ListView(
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                    onChanged: (String text) => _phone = text,
-                    decoration: const InputDecoration(
-                        hintText: 'Input the phone number to launch')),
-              ),
-              ElevatedButton(
-                onPressed: _hasCallSupport
-                    ? () => setState(() {
-                  _launched = _makePhoneCall(_phone);
-                })
-                    : null,
-                child: _hasCallSupport
-                    ? const Text('Make phone call')
-                    : const Text('Calling not supported'),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(toLaunch.toString()),
-              ),
-              ElevatedButton(
-                onPressed: () => setState(() {
-                  _launched = _launchInBrowser(toLaunch);
-                }),
-                child: const Text('Launch in browser'),
-              ),
-              const Padding(padding: EdgeInsets.all(16.0)),
-              ElevatedButton(
-                onPressed: () => setState(() {
-                  _launched = _launchInBrowserView(toLaunch);
-                }),
-                child: const Text('Launch in app'),
-              ),
-              ElevatedButton(
-                onPressed: () => setState(() {
-                  _launched = _launchAsInAppWebViewWithCustomHeaders(toLaunch);
-                }),
-                child: const Text('Launch in app (Custom Headers)'),
-              ),
-              ElevatedButton(
-                onPressed: () => setState(() {
-                  _launched = _launchInWebViewWithoutJavaScript(toLaunch);
-                }),
-                child: const Text('Launch in app (JavaScript OFF)'),
-              ),
-              ElevatedButton(
-                onPressed: () => setState(() {
-                  _launched = _launchInWebViewWithoutDomStorage(toLaunch);
-                }),
-                child: const Text('Launch in app (DOM storage OFF)'),
-              ),
-              const Padding(padding: EdgeInsets.all(16.0)),
-              ElevatedButton(
-                onPressed: () => setState(() {
-                  _launched = _launchUniversalLinkIOS(toLaunch);
-                }),
-                child: const Text(
-                    'Launch a universal link in a native app, fallback to Safari.(Youtube)'),
-              ),
-              const Padding(padding: EdgeInsets.all(16.0)),
-              ElevatedButton(
-                onPressed: () => setState(() {
-                  _launched = _launchInWebView(toLaunch);
-                  Timer(const Duration(seconds: 5), () {
-                    closeInAppWebView();
-                  });
-                }),
-                child: const Text('Launch in app + close after 5 seconds'),
-              ),
-              const Padding(padding: EdgeInsets.all(16.0)),
-              Link(
-                uri: Uri.parse(
-                    'https://pub.dev/documentation/url_launcher/latest/link/link-library.html'),
-                target: LinkTarget.blank,
-                builder: (BuildContext ctx, FollowLink? openLink) {
-                  return TextButton.icon(
-                    onPressed: openLink,
-                    label: const Text('Link Widget documentation'),
-                    icon: const Icon(Icons.read_more),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            launchButton(
+                title: 'Launch Phone Icon',
+                icon: Icons.phone,
+                onPressed: () async {
+                  Uri uri = Uri.parse('tel: +880-15170-53529');
+                  if(!await launcher.launch(uri.toString())){
+                    debugPrint(
+                      "Could Not Launch The Uri"
+                    );
+                  }
+
+            }
+            ),
+            Gap(10),
+            launchButton(
+                title: "Launch Website/Url",
+                icon: Icons.language,
+                onPressed: (){
+                  launcher.launchUrl(Uri.parse('https://flutter.dev'),
+                    mode: launcher.LaunchMode.externalApplication,
                   );
-                },
-              ),
-              const Padding(padding: EdgeInsets.all(16.0)),
-              FutureBuilder<void>(future: _launched, builder: _launchStatus),
+                }),
+            Gap(10),
+            launchButton(
+                title: 'Launch SMs /Message ',
+                icon: Icons.message,
+                onPressed: () => launcher.launchUrl(Uri.parse(
+                    'sms:555010123${Platform.isAndroid ? '?' : '&'}body=Message from flutter app',),
+                ),
+            ),
+            Gap(10),
+            launchButton(
+                title: 'Launch Email',
+                icon: Icons.email,
+                onPressed: () async{
+                  Uri uri = Uri.parse(
+                    'mailto:sharifdu44@gmail.com?sub=Flutter Uri Launcher&body= Hi, Flutter Developer'
+                  );
+                  if(!await launcher.launchUrl(uri)){
+                    debugPrint("Could Not Launch the Uri");
+                  }
+                }),
+            Gap(10),
+            Container(
+              height: 50,
+              child: BottomNavigationExample(),
+            ),
+
+          ],
+        ),
+      ),
+
+    );
+  }
+  Widget launchButton ({
+    required String title,
+    required IconData icon,
+    required Function () onPressed,
+
+}){
+    return Container(
+      height: 45,
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.green),
+        ),
+          onPressed: onPressed,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon),
+              const SizedBox(width: 20,),
+              Text(
+                title,
+                style: const TextStyle(fontSize: 16),
+              )
+
             ],
+
           ),
-        ],
       ),
     );
   }

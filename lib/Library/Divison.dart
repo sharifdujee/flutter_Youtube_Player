@@ -1,4 +1,5 @@
-import 'package:Division/Widget/bottom_navigation.dart';
+
+import 'package:Flutter_Library/Widget/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -21,7 +22,7 @@ class _DivisionSelectionWidgetState extends State<DivisionSelectionWidget> {
     'Rajshahi',
     'RangPur'
   ];
-  Map<String, List<String>> districit = {
+  Map<String, List<String>> Flutter_Libraryt = {
     'Dhaka': ['Dhaka', 'NarayanGang', 'MunshiGang' 'MankiGong', 'Gazipur', 'Tangail', 'Narshandi', 'FaridPur', 'Madaripur','SheritPur'],
     'Chittagong': ['Chittagong', 'CoxBazar', 'Comilla', 'B-Baria', 'Feni', 'Nohakhali','Lakshmipur','Chandpur', 'Bandarban', "Khagrachori", 'RangaMati'],
     'Sylhet': ['Sylhet', 'SunamGang', 'HobiGang', 'MolibiBazar'],
@@ -50,7 +51,7 @@ class _DivisionSelectionWidgetState extends State<DivisionSelectionWidget> {
                 setState(() {
                   selectedDivision = newValue!;
                   // Reset selectedSubDivision when a new division is selected
-                  selectedSubDivision = districit[selectedDivision]?.first ?? '';
+                  selectedSubDivision = Flutter_Libraryt[selectedDivision]?.first ?? '';
                 });
               },
               items: divisions.map((String division) {
@@ -71,7 +72,7 @@ class _DivisionSelectionWidgetState extends State<DivisionSelectionWidget> {
                   selectedSubDivision = newValue!;
                 });
               },
-              items: districit[selectedDivision]?.map((String subDivision) {
+              items: Flutter_Libraryt[selectedDivision]?.map((String subDivision) {
                 return DropdownMenuItem<String>(
                   value: subDivision,
                   child: Text(subDivision),

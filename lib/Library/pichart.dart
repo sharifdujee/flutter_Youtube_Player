@@ -1,5 +1,6 @@
-import 'package:Division/Library/sector.dart';
-import 'package:Division/Widget/bottom_navigation.dart';
+
+import 'package:Flutter_Library/Library/sector.dart';
+import 'package:Flutter_Library/Widget/bottom_navigation.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
